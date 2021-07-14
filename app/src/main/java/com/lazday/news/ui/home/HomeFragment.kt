@@ -56,8 +56,8 @@ class HomeFragment : Fragment() {
 
         viewModel.news.observe(viewLifecycleOwner, {
             Timber.e(it.articles.toString())
-            binding.imageAlert.visibility = if (it.articles.isEmpty()) View.VISIBLE else View.GONE
-            binding.textAlert.visibility = if (it.articles.isEmpty()) View.VISIBLE else View.GONE
+            //binding.imageAlert.visibility = if (it.articles.isEmpty()) View.VISIBLE else View.GONE
+            //binding.textAlert.visibility = if (it.articles.isEmpty()) View.VISIBLE else View.GONE
             newsAdapter.addData(it.articles)
         })
 
