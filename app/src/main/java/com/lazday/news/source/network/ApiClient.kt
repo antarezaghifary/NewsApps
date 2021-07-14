@@ -11,7 +11,7 @@ interface ApiClient {
             @Query("apiKey") apiKey: String,
             @Query("country") country: String,
             @Query("category") category: String,
-            @Query("q") q: String,
+            @Query("q") query: String,
             @Query("page") page: Int, // max 20 perpage
     )
             : NewsModel

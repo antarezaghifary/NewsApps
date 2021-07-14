@@ -13,14 +13,14 @@ class NewsRepository(
 ) {
     suspend fun fetchApi(
             category: String,
-            q: String,
+            query: String,
             page: Int
     ): NewsModel {
         return api.fetchNews(
                 BuildConfig.API_KEY,
                 "id",
                 category,
-                q,
+                query,
                 page
         )
     }
