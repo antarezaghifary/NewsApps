@@ -72,6 +72,8 @@ class HomeFragment : Fragment() {
         viewModel.category.observe(viewLifecycleOwner, {
             Timber.e(it)
             //viewModel.fetch()
+            //
+            NewsAdapter.VIEW_TYPES = if (it!!.isEmpty()) 1 else 2
             firstLoad()
         })
 
