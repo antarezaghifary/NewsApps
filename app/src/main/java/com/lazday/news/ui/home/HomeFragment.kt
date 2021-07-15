@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.lazday.news.R
 import com.lazday.news.databinding.CustomToolbarBinding
 import com.lazday.news.databinding.FragmentHomeBinding
 import com.lazday.news.source.news.ArticleModel
@@ -46,12 +47,31 @@ class HomeFragment : Fragment() {
 
         //bindingToolbar.textTitle.text = viewModel.title
         bindingToolbar.title = viewModel.title
+        //search
+        bindingToolbar.container.inflateMenu(R.menu.menu_search)
+        val menu = binding.toolbar.container.menu
+        val search = menu.findItem(R.id.action_search)
+        val searchView = search.actionView as androidx.appcompat.widget.SearchView
+        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                firstLoad()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    viewModel.query = it
+                }
+                return true
+            }
+        })
         //Timber.e(viewModel.categories.toString())
         binding.listCategory.adapter = categoryAdapter
 
         viewModel.category.observe(viewLifecycleOwner, {
             Timber.e(it)
-            viewModel.fetch()
+            //viewModel.fetch()
+            firstLoad()
         })
 
         binding.listNews.adapter = newsAdapter
@@ -68,6 +88,11 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun firstLoad() {
+        binding.scroll.scrollTo(0, 0)
+        viewModel.fetch()
     }
 
     private val newsAdapter by lazy {

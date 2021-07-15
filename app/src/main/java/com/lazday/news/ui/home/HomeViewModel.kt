@@ -29,11 +29,13 @@ class HomeViewModel(
         //fetch()
     }
 
+    var query = ""
+
     fun fetch() {
         loading.value = true
         viewModelScope.launch {
             try {
-                val response = repository.fetchApi(category.value!!, "", 1)
+                val response = repository.fetchApi(category.value!!, query, 1)
                 news.value = response
                 loading.value = false
             } catch (e: Exception) {
