@@ -44,6 +44,7 @@ class BookmarkFragment : Fragment() {
         bindingToolbar.title = viewModel.title
         binding.listBookmark.adapter = newsAdapter
         viewModel.articles.observe(viewLifecycleOwner, {
+            newsAdapter.clear()
             newsAdapter.addData(it)
         })
     }

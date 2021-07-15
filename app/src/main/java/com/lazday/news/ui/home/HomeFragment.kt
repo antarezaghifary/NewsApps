@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import com.lazday.news.R
 import com.lazday.news.databinding.CustomToolbarBinding
@@ -80,6 +81,8 @@ class HomeFragment : Fragment() {
             Timber.e(it.articles.toString())
             //binding.imageAlert.visibility = if (it.articles.isEmpty()) View.VISIBLE else View.GONE
             //binding.textAlert.visibility = if (it.articles.isEmpty()) View.VISIBLE else View.GONE
+            //
+            if (viewModel.page == 1) newsAdapter.clear()
             newsAdapter.addData(it.articles)
         })
 
@@ -88,10 +91,20 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         })
+
+        //
+        binding.scroll.setOnScrollChangeListener { v: NestedScrollView, _, scrollY, _, _ ->
+            if (scrollY == v.getChildAt(0)!!.measuredHeight - v.measuredHeight) {
+                if (viewModel.page <= viewModel.totalMax && viewModel.loadMore.value == false) viewModel.fetch()
+            }
+        }
     }
 
     private fun firstLoad() {
         binding.scroll.scrollTo(0, 0)
+        //
+        viewModel.page = 1
+        viewModel.totalMax = 1
         viewModel.fetch()
     }
 
